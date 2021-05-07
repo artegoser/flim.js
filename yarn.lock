@@ -1070,6 +1070,8 @@ __metadata:
     coveralls: ^3.1.0
     mocha: ^8.4.0
     nyc: ^15.1.0
+  bin:
+    flim: ./cli/cli.js
   languageName: unknown
   linkType: soft
 

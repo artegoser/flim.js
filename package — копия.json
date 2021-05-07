@@ -10,7 +10,9 @@
     "backend",
     "frontend"
   ],
-  "bin": "./flim-cli.js",
+  "bin":{
+    "flim":"./cli/cli.js"
+  },
   "dependencies": {
     "commander": "^7.2.0"
   },
