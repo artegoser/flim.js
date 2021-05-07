@@ -1062,16 +1062,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flim@workspace:.":
+"flim.js@workspace:.":
   version: 0.0.0-use.local
-  resolution: "flim@workspace:."
+  resolution: "flim.js@workspace:."
   dependencies:
     commander: ^7.2.0
     coveralls: ^3.1.0
     mocha: ^8.4.0
     nyc: ^15.1.0
   bin:
-    flim: ./cli/cli.js
+    flim: ./flim-cli.js
   languageName: unknown
   linkType: soft
 
