@@ -1,0 +1,24 @@
+{
+  "name": "flim",
+  "version": "1.0.0-alpha-0.0.1",
+  "author": "artegoser",
+  "license": "MIT",
+  "keywords": [
+    "flim",
+    "manager",
+    "File-Library-Manager",
+    "backend",
+    "frontend"
+  ],
+  "bin":{
+    "flim":"./cli/cli.js"
+  },
+  "dependencies": {
+    "commander": "^7.2.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.1.0",
+    "mocha": "^8.4.0",
+    "nyc": "^15.1.0"
+  }
+}
