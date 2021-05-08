@@ -65,6 +65,7 @@ class flim{
     }
     flimpkg(json, pkg, g){
         if(json.type=="flim"){
+            this.warn("Sorry, flim type still in development")
             //later
         } else if(json.type=="npm-node"){
             this.startFunc(`npm-node setup for ${pkg}`, ctx=>{

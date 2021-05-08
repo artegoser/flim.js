@@ -8,7 +8,7 @@ program
   .command('add <pkg...>')
   .description('adds packages by package-manager')
   .option('-pm, --package-manager <mode>', 'Which package manager to use', 'flim')
-  .option('-g, --global', 'Works with npm', false)
+  .option('-g, --global', 'Don\'t works with yarn', false)
   .action((pkg, options) => {
     let add = require("./flim.js/flim-add");
     if(!pkg) throw new Error("package not specified");
