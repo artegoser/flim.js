@@ -20,7 +20,7 @@ program
             add.yarn(pkg);
             break;
         case "flim":
-            let flim = new add.flim();
+            let flim = new add.flim(pkg, options.global);
     }
   });
 
