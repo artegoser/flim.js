@@ -47,67 +47,62 @@ class flim{
 
         this.info(`flim version ${require("../package.json").version}`);
         this.info(`The global flim index doesn't work in flim yet`);
-
+        this.index = {};
         try{
-          this.info(`Try to read local-flim-index.json`);
-          let data = fs.readFileSync(`${__dirname}\\flim-index.json`);
-          //later//
+          this.info(`Try to read flim-index.json in local storage`);
+          this.index = fs.readFileSync(`${__dirname}\\flim-index.json`);
+          this.flimpkg(this.index[pkg], pkg, g);
         } catch{
-          this.warn(`Local index not found, using cdn.jsdelivr.net`);
+          this.info(`Local index not found, using cdn.jsdelivr.net`);
           this.info(`Getting ${pkg} from https://cdn.jsdelivr.net/npm/${pkg}/flim.json`);
           fetch(`https://cdn.jsdelivr.net/npm/${pkg}/flim.json`)
             .then(res => res.json())
             .then(json => {
-                if(json.type=="flim"){
-                    //later
-                } else if(json.type=="npm-node"){
-                    this.startFunc(`npm-node setup for ${pkg}`, ctx=>{
-                        let xc = g ? ["i"].concat(pkg,'-g') : ["i"].concat(pkg);
-                        const sp = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', xc);
-                        sp.stdout.on("data", data => {
-                            ctx.log(`  ${data}`.replace(/\n/g, "\n    "));
-                        });
-                        sp.stderr.on("data", data => {
-                            ctx.log(`  \u001b[41mflim warn:\u001b[0m ${data}`.replace(/\n/g, "\n    "));
-                        });
-                        sp.on('error', (error) => {
-                            ctx.log(`  \u001b[41mflim warn:\u001b[0m ${error.message}`.replace(/\n/g, "\n    "));
-                        });
-                        sp.on('exit', ()=>{
-                            ctx.done();
-                        });
-                    });
-                } else if(json.type=="yarn-node"){
-                    this.startFunc(`npm-yarn setup for ${pkg}`, ctx=>{
-                        let xc = g ? ["i"].concat(pkg,'-g') : ["i"].concat(pkg);
-                        const sp = spawn(/^win/.test(process.platform) ? 'yarn.cmd' : 'yarn', xc);
-                        sp.stdout.on("data", data => {
-                            ctx.log(`  ${data}`.replace(/\n/g, "\n    "));
-                        });
-                        sp.stderr.on("data", data => {
-                            ctx.log(`  \u001b[41mflim warn:\u001b[0m ${data}`.replace(/\n/g, "\n    "));
-                        });
-                        sp.on('error', (error) => {
-                            ctx.log(`  \u001b[41mflim warn:\u001b[0m ${error.message}`.replace(/\n/g, "\n    "));
-                        });
-                        sp.on('exit', ()=>{
-                            ctx.done();
-                        });
-                    });
-                } else{
-                    this.warn(`this type (${json.type}) is not supported`)
-                }
-            }).catch((err)=>{
-                this.warn(`Fetch error: ${err}`);
-            });
+                this.index[pkg] = json;
+                this.flimpkg(this.index[pkg], pkg, g);
+            }).catch(err=> {throw new Error(err)});
         }
-
-        // this.startFunc("setup", ctx=>{
-        //     ctx.ok("come back soon");
-        //     setTimeout(()=>ctx.warn("flim package manager is not working yet"), 1000);
-        //     setTimeout(()=>ctx.info("flim package manager will start working soon"), 2000);
-        //     setTimeout(ctx.done, 3000);
-        // });
+    }
+    flimpkg(json, pkg, g){
+        if(json.type=="flim"){
+            //later
+        } else if(json.type=="npm-node"){
+            this.startFunc(`npm-node setup for ${pkg}`, ctx=>{
+                let xc = g ? ["i"].concat(pkg,'-g') : ["i"].concat(pkg);
+                const sp = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', xc);
+                sp.stdout.on("data", data => {
+                    ctx.log(`  ${data}`.replace(/\n/g, "\n    "));
+                });
+                sp.stderr.on("data", data => {
+                    ctx.log(`  \u001b[41mflim warn:\u001b[0m ${data}`.replace(/\n/g, "\n    "));
+                });
+                sp.on('error', (error) => {
+                    ctx.log(`  \u001b[41mflim warn:\u001b[0m ${error.message}`.replace(/\n/g, "\n    "));
+                });
+                sp.on('exit', ()=>{
+                    ctx.done();
+                });
+            });
+        } else if(json.type=="yarn-node"){
+            this.startFunc(`npm-yarn setup for ${pkg}`, ctx=>{
+                let xc = g ? ["add"].concat(pkg) : ["add"].concat(pkg);
+                const sp = spawn(/^win/.test(process.platform) ? 'yarn.cmd' : 'yarn', xc);
+                sp.stdout.on("data", data => {
+                    ctx.log(`  ${data}`.replace(/\n/g, "\n    "));
+                });
+                sp.stderr.on("data", data => {
+                    ctx.log(`  \u001b[41mflim warn:\u001b[0m ${data}`.replace(/\n/g, "\n    "));
+                });
+                sp.on('error', (error) => {
+                    ctx.log(`  \u001b[41mflim warn:\u001b[0m ${error.message}`.replace(/\n/g, "\n    "));
+                });
+                sp.on('exit', ()=>{
+                    ctx.done();
+                });
+            });
+        } else{
+            this.warn(`this type (${json.type}) is not supported`)
+        }
     }
     startFunc(title,func, brackets=true){
         if(brackets) console.log(chalk.yellow(`flim run:  ${title} {`));
