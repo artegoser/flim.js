@@ -20,9 +20,21 @@ program
             add.yarn(pkg);
             break;
         case "flim":
-            throw new Error("we work on flim pm");
+            let flim = new add.flim();
     }
   });
 
+program
+  .command("init")
+  .description("creates a flim.json file")
+  .option("-f, --fast-mode", "Skip all options", false)
+  .action((options)=>{
+    let init = require("./flim.js/flim-init");
+    if(options.fastMode){
+      init.finit();
+    } else {
+      init.init();
+    }
+  })
 
 program.parse(process.argv);

@@ -1,0 +1,14 @@
+{
+  "name": "flim.js",
+  "author": "artegoser",
+  "version": "1.0.0-alpha-0.3.0",
+  "type": "npm-node",
+  "license": "MIT",
+  "keywords": [
+    "flim",
+    "manager",
+    "File-Library-Manager",
+    "backend",
+    "frontend"
+  ]
+}
