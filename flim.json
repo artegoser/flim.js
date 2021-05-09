@@ -1,8 +1,8 @@
 {
   "name": "flim.js",
   "author": "artegoser",
-  "version": "1.0.0-alpha-0.5.1",
-  "type": "npm-node",
+  "version": "1.0.0-alpha-0.6.0",
+  "type": "npm-yarn",
   "license": "MIT",
   "keywords": [
     "flim",
