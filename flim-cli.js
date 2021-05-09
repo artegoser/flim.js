@@ -35,6 +35,17 @@ program
     } else {
       init.init();
     }
-  })
+  });
+
+program
+  .command("ldb <name> create")
+  .description("creates a localdb")
+  .option("-f, --fast-mode", "Skipp all options", false)
+  .action((name, options)=>{
+    let ldb = require("./flim.js/flim-ldb");
+    ldb = new ldb(name);
+    if(options.fastMode) ldb.fcreate();
+    else ldb.create();
+  });
 
 program.parse(process.argv);
