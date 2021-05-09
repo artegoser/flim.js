@@ -76,7 +76,7 @@ class flim{
                 this.flimpkg(this.index[pkg], pkg, g);
             }).catch(err=> {
                 this.mainlogger.warn("Fetch Error"); 
-                this.mainlogger.info("Trying to get package.json"); 
+                this.mainlogger.info("Trying to get package.json Instead of flim.json"); 
                 fetch(`https://cdn.jsdelivr.net/npm/${pkg}/package.json`)
                 .then(res => res.json())
                 .then(json => {

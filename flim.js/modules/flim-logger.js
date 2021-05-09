@@ -7,7 +7,7 @@ class Logger{
     }
     warn(msg){
         logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgRed.white("flim warn:")} ${msg} `));
-        logUpdate.stderr.done();
+        logUpdate.done();
     }
     info(msg){
         logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgBlue.white("flim info:")} ${msg} `));
