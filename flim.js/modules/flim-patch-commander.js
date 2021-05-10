@@ -5,13 +5,17 @@ function patchCommander(Command) {
             args = args || [];
             unknown = unknown || [];
             var parsed = self.parseOptions(unknown);
-            if (parsed.args.length) args = parsed.args.concat(args);
+            if (parsed?.args?.length) args = parsed.args.concat(args);
             unknown = parsed.unknown;
             if (unknown.includes('--help') || unknown.includes('-h')) {
                 self.outputHelp();
                 process.exit(0);
             }
-            self.parseArgs(args, unknown);
+            try{
+                self.parseArgs(args, unknown);
+            } catch(err){
+                console.log("There is no such command");
+            }
         };
         if (this._args.length > 0) {
             console.error('forwardSubcommands cannot be applied to command with explicit args');
