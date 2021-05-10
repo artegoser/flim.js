@@ -38,14 +38,25 @@ program
   });
 
 program
-  .command("ldb <name> create")
+  .command("ldb <dbname> create")
   .description("creates a localdb")
   .option("-f, --fast-mode", "Skipp all options", false)
-  .action((name, options)=>{
+  .action((dbname, options)=>{
     let ldb = require("./flim.js/flim-ldb");
-    ldb = new ldb(name);
+    ldb = new ldb(dbname);
     if(options.fastMode) ldb.fcreate();
     else ldb.create();
+  });
+
+program
+  .command("ldb add <dbname> <title> <name> <url>")
+  .description("add a package to localdb")
+  .option("-s, --sequential-mode", "Fill in the package description sequentially")
+  .action((dbname, title, name, url)=>{
+    let ldb = require("./flim.js/flim-ldb");
+    ldb = new ldb(dbname);
+    if(sequentialMode) ldb.sadd(title, name, url)
+    else ldb.add(title, name, url)
   });
 
 program.parse(process.argv);
