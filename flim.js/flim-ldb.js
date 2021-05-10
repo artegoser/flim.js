@@ -66,12 +66,10 @@ class ldb{
             });
         });
     }
-
     exit(err){
         this.logger.warn(err);
         process.exit(1);
     }
-
     async sadd(){
         const rl = readline.createInterface({
             input: process.stdin,
