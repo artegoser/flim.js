@@ -83,6 +83,7 @@ class ldb{
         block.url = await new Promise(resolve => {
             rl.question("url: ", resolve);
         }) || false;
+        rl.close();
         if(!block.url) {
             
         }

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-
 const { Command } = require('commander');
+require("./flim.js/modules/flim-patch-commander")(Command);
+
 const program = new Command();
 program.version(require("./package.json").version);
 
@@ -37,8 +38,10 @@ program
     }
   });
 
-program
-  .command("ldb <dbname> create")
+const ldb = program.command("ldb").description("Work with localdbs").forwardSubcommands();
+
+ldb
+  .command("create <dbname>")
   .description("creates a localdb")
   .option("-f, --fast-mode", "Skipp all options", false)
   .action((dbname, options)=>{
@@ -48,14 +51,14 @@ program
     else ldb.create();
   });
 
-program
-  .command("ldb add <dbname> <title> <name> <url>")
+ldb
+  .command("add <dbname> <title> <name> <url>")
   .description("add a package to localdb")
   .option("-s, --sequential-mode", "Fill in the package description sequentially")
-  .action((dbname, title, name, url)=>{
+  .action((dbname, title, name, url, options)=>{
     let ldb = require("./flim.js/flim-ldb");
     ldb = new ldb(dbname);
-    if(sequentialMode) ldb.sadd(title, name, url)
+    if(options.sequentialMode) ldb.sadd(title, name, url)
     else ldb.add(title, name, url)
   });
 
