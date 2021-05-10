@@ -62,4 +62,18 @@ ldb
     else ldb.add(title, name, url)
   });
 
+ldb
+  .command("i <dbname> <pkg>")
+  .description("installs the desired package from the localdb")
+  .action(pkg=>{
+
+  });
+
+ldb
+.command("dbi <dbname> <pkg>")
+.description("installs all-packages from localdb")
+.action(pkg=>{
+
+});
+
 program.parse(process.argv);
