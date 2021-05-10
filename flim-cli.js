@@ -6,12 +6,12 @@ const program = new Command();
 program.version(require("./package.json").version);
 
 program
-  .command('add <pkg...>')
-  .description('adds packages by package-manager')
+  .command('i <pkg...>')
+  .description('installs packages by package-manager')
   .option('-pm, --package-manager <mode>', 'Which package manager to use', 'flim')
   .option('-g, --global', 'Don\'t works with yarn', false)
   .action((pkg, options) => {
-    let add = require("./flim.js/flim-add");
+    let add = require("./flim.js/flim-install");
     if(!pkg) throw new Error("package not specified");
     switch(options.packageManager){
         case "npm":
@@ -52,7 +52,7 @@ ldb
   });
 
 ldb
-  .command("add <dbname> <title> <name> <url>")
+  .command("add [dbname] [title] [name] [url]")
   .description("add a package to localdb")
   .option("-s, --sequential-mode", "Fill in the package description sequentially")
   .action((dbname, title, name, url, options)=>{
