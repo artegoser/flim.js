@@ -42,7 +42,41 @@ class ldb{
         fs.writeFile(this.name, JSON.stringify({
             license: "MIT",
             keywords: ["flim"]
-        }, null, "  "));
+        }, null, "  "), err=>{
+            if(err){
+                this.logger.warn(err);
+                return;
+            }
+            this.logger.info("Created a localdb");
+            console.log({
+                license: "MIT",
+                keywords: ["flim"]
+            });
+        });
+    }
+
+    async sadd(){
+        let block = {};
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        function exit(){
+            process.exit(1)
+        }
+        block.title = await new Promise(resolve => {
+            rl.question("title: ", resolve);
+        }) || false;
+        block.name = await new Promise(resolve => {
+            rl.question("name: ", resolve);
+        }) || false;
+        block.url = await new Promise(resolve => {
+            rl.question("url: ", resolve);
+        }) || false;
+        rl.close();
+        if(!block.url) {
+            
+        }
     }
 }
 
