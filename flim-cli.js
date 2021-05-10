@@ -1,16 +1,17 @@
 #!/usr/bin/env node
-
 const { Command } = require('commander');
+require("./flim.js/modules/flim-patch-commander")(Command);
+
 const program = new Command();
 program.version(require("./package.json").version);
 
 program
-  .command('add <pkg...>')
-  .description('adds packages by package-manager')
+  .command('i <pkg...>')
+  .description('installs packages by package-manager')
   .option('-pm, --package-manager <mode>', 'Which package manager to use', 'flim')
   .option('-g, --global', 'Don\'t works with yarn', false)
   .action((pkg, options) => {
-    let add = require("./flim.js/flim-add");
+    let add = require("./flim.js/flim-install");
     if(!pkg) throw new Error("package not specified");
     switch(options.packageManager){
         case "npm":
@@ -35,6 +36,30 @@ program
     } else {
       init.init();
     }
-  })
+  });
+
+const ldb = program.command("ldb").description("Work with localdbs").forwardSubcommands();
+
+ldb
+  .command("create <dbname>")
+  .description("creates a localdb")
+  .option("-f, --fast-mode", "Skipp all options", false)
+  .action((dbname, options)=>{
+    let ldb = require("./flim.js/flim-ldb");
+    ldb = new ldb(dbname);
+    if(options.fastMode) ldb.fcreate();
+    else ldb.create();
+  });
+
+ldb
+  .command("add [dbname] [title] [name] [url]")
+  .description("add a package to localdb")
+  .option("-s, --sequential-mode", "Fill in the package description sequentially")
+  .action((dbname, title, name, url, options)=>{
+    let ldb = require("./flim.js/flim-ldb");
+    ldb = new ldb(dbname);
+    if(options.sequentialMode) ldb.sadd(title, name, url)
+    else ldb.add(title, name, url)
+  });
 
 program.parse(process.argv);
