@@ -66,7 +66,6 @@ class flim{
           this.flimpkg(this.index[pkg], pkg, g);
         } catch{
           this.mainlogger.info(`Local index not found, using cdn.jsdelivr.net`);
-          this.mainlogger.info(`Getting ${pkg} from https://cdn.jsdelivr.net/npm/${pkg}/flim.json`);
           fetch(`https://cdn.jsdelivr.net/npm/${pkg}/flim.json`)
             .then(res => res.json())
             .then(json => {
