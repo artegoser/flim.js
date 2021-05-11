@@ -56,8 +56,6 @@ function yarn(pkg, resolve){
 class flim{
     constructor(pkg, g){
         pkg = Array.isArray(pkg) ? pkg[0] : pkg;
-        this.i = 0;
-        this.spinframes = process.platform !== 'win32' ? ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'] : ['-', '\\', '|', '/'];
         this.mainlogger = new logger();
         this.mainlogger.info(`flim version ${require("../package.json").version}`);
         this.mainlogger.info(`The global flim index doesn't work in flim yet`);
@@ -96,52 +94,22 @@ class flim{
             this.mainlogger.warn("Sorry, flim type still in development")
             //later
         } else if(json.type=="npm-node"){
-            this.startFunc(`npm-node setup for ${pkg}`, async ctx=>{
+            this.mainlogger.startFunc(`npm-node setup for ${pkg}`, async ctx=>{
                 await new Promise((res)=>{
                     npm(pkg, g, res);
                 });
                 ctx.done();
             });
         } else if(json.type=="yarn-node"){
-            this.startFunc(`npm-yarn setup for ${pkg}`, async ctx=>{
+            this.mainlogger.startFunc(`npm-yarn setup for ${pkg}`, async ctx=>{
                 await new Promise((res)=>{
                     yarn(pkg, res);
                 });
                 ctx.done();
             });
         } else{
-            this.warn(`this type (${json.type}) is not supported`);
+            this.mainlogger.warn(`this type (${json.type}) is not supported`);
         }
-    }
-    async startFunc(title,func,brackets=true){
-        if(brackets) console.log(chalk.yellow(`flim run:  ${title} {`));
-        else console.log(chalk.yellow(`flim run:  ${title} `))
-        const funclogger = new logger("  ");
-        let time = setInterval(()=>{
-            this.next_frame();
-            logUpdate(chalk.yellow(`${this.frame} ${title}`));
-        }, 150);
-        function done(){
-            clearInterval(time);
-            if(brackets) logUpdate(chalk.yellow(`}`));
-            else logUpdate();
-            logUpdate.done();
-        }
-
-        let context = {
-            warn:funclogger.warn,
-            ok:funclogger.ok,
-            done:done,
-            info:funclogger.info,
-            log:funclogger.log
-        }
-        await func(context);
-    }
-    get frame(){
-        return this.spinframes[this.i];
-    }
-    next_frame(){
-        this.i = ++this.i % this.spinframes.length;
     }
 }
 

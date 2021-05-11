@@ -4,6 +4,8 @@ const logUpdate = require('log-update');
 class Logger{
     constructor(tab=""){
         this.tab = tab;
+        this.i = 0;
+        this.spinframes = process.platform !== 'win32' ? ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'] : ['-', '\\', '|', '/'];
     }
     warn(msg){
         logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgRed.white("flim warn:")} ${msg} `));
@@ -14,12 +16,40 @@ class Logger{
         logUpdate.done();
     }
     ok(msg){
-        logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgGreen.white("flim ok:  ")} ${msg} `));
+        logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgGreen.white("flim:     ")} ${msg} `));
         logUpdate.done();
     }
     log(msg){
         logUpdate(this.tab+msg);
         logUpdate.done();
+    }
+    async startFunc(title,func,addinf,brackets=true){
+        if(brackets) console.log(chalk.yellow(`flim run:  ${title} {`));
+        let time = setInterval(()=>{
+            this.next_frame();
+            if(addinf) logUpdate(chalk.yellow(`${this.frame} ${title} ${addinf()}`));
+            else logUpdate(chalk.yellow(`${this.frame} ${title}`));
+        }, 150);
+        function done(){
+            clearInterval(time);
+            if(brackets) logUpdate(chalk.yellow(`}`));
+            logUpdate.done();
+        }
+
+        let context = {
+            warn:this.warn,
+            ok:this.ok,
+            done:done,
+            info:this.info,
+            log:this.log
+        }
+        await func(context);
+    }
+    get frame(){
+        return this.spinframes[this.i];
+    }
+    next_frame(){
+        this.i = ++this.i % this.spinframes.length;
     }
 }
 
