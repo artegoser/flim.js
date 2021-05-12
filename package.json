@@ -1,6 +1,6 @@
 {
   "name": "flim.js",
-  "version": "1.0.0-alpha-0.12.0",
+  "version": "1.0.0-alpha-0.12.1",
   "author": "artegoser",
   "license": "MIT",
   "scripts": {
@@ -13,6 +13,7 @@
     "backend",
     "frontend"
   ],
+  "types": "./lib/flim-cli.d.ts",
   "bin": {
     "flim": "./lib/flim-cli.js"
   },
