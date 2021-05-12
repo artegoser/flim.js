@@ -10,7 +10,7 @@ function filter( obj, filtercheck) {
 };
 
 async function init(){
-    let jsonflim:any;
+    let jsonflim:any={};
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -49,7 +49,7 @@ async function init(){
 }
 
 function fastinit(){
-    let jsonflim:any;
+    let jsonflim:any={};
     jsonflim.name = process.cwd().split("\\")[process.cwd().split("\\").length-1];
     jsonflim.version = "1.0.0";
     jsonflim.type = "flim";

@@ -1,6 +1,6 @@
-#only git---------
-lib/
-#only git---------
+#only npm------
+src/
+#only npm------
 
 # Logs
 logs

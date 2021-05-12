@@ -26,7 +26,7 @@ export class Logger{
         logUpdate(this.tab+msg);
         logUpdate.done();
     }
-    async startFunc(title,func,addinf,brackets=true){
+    async startFunc(title,func,addinf:any=false,brackets=true){
         if(brackets) console.log(chalk.yellow(`flim run:  ${title} {`));
         let time = setInterval(()=>{
             this.next_frame();
