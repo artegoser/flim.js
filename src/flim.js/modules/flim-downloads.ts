@@ -1,8 +1,11 @@
-const fetch = require("node-fetch");
-const fs = require("fs");
-const Logger = require("./flim-logger");
-
+import * as fetch from "node-fetch";
+import { Logger } from "./flim-logger";
+import * as fs from "fs";
 class Downloader{
+  Logger:Logger;
+  url:URL;
+  bytes_written:number;
+  bytes:number;
   constructor(durl, path){
     this.Logger = new Logger("  ");
     this.url = new URL(durl);
@@ -28,7 +31,7 @@ class Downloader{
       let bytescheck = setInterval(()=>{
         this.bytes_written = fileStream.bytesWritten;
       }, 0);
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
           res.body.pipe(fileStream);
           res.body.on("error", reject);
           fileStream.on("finish", ()=>{

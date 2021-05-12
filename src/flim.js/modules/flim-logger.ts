@@ -1,7 +1,10 @@
-const chalk = require('chalk');
-const logUpdate = require('log-update');
+import * as chalk from 'chalk';
+import * as logUpdate from 'log-update';
 
-class Logger{
+export class Logger{
+    tab:string;
+    spinframes:Array<string>;
+    i:number;
     constructor(tab=""){
         this.tab = tab;
         this.i = 0;
@@ -52,5 +55,3 @@ class Logger{
         this.i = ++this.i % this.spinframes.length;
     }
 }
-
-module.exports = Logger;
