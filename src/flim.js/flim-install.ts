@@ -1,9 +1,8 @@
-const { spawn } = require("child_process");
-const logUpdate = require('log-update');
-const chalk = require('chalk');
-const fetch = require('node-fetch');
-const logger = require("./modules/flim-logger")
-const fs = require("fs");
+import { spawn } from "child_process";
+import * as logUpdate from 'log-update';
+import * as fetch from 'node-fetch';
+import { Logger } from "./modules/flim-logger";
+import * as fs from "fs";
 
 function npm(pkg, g, resolve){
         let xc = g ? ["i"].concat(pkg,'-g') : ["i"].concat(pkg);
@@ -54,15 +53,17 @@ function yarn(pkg, resolve){
 }
 
 class flim{
+    mainlogger:Logger;
+    index:any;
     constructor(pkg, g){
         pkg = Array.isArray(pkg) ? pkg[0] : pkg;
-        this.mainlogger = new logger();
-        this.mainlogger.info(`flim version ${require("../package.json").version}`);
+        this.mainlogger = new Logger();
+        this.mainlogger.info(`flim version ${require("../../package.json").version}`);
         this.mainlogger.info(`The global flim index doesn't work in flim yet`);
         this.index = {};
         try{
           this.mainlogger.info(`Try to read flim-index.json in local storage`);
-          this.index = fs.readFileSync(`${__dirname}\\flim-index.json`);
+          this.index = fs.readFileSync(`${__dirname}\\flim-index.json`).toJSON();
           this.flimpkg(this.index[pkg], pkg, g);
         } catch{
           this.mainlogger.info(`Local index not found, using cdn.jsdelivr.net`);

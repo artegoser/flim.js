@@ -1,4 +1,4 @@
-function patchCommander(Command) {
+export function patchCommander(Command) {
     Command.prototype.forwardSubcommands = function() {
         let self = this;
         let listener = function(args, unknown) {
@@ -27,4 +27,3 @@ function patchCommander(Command) {
         return this;
     };
   }
-module.exports = patchCommander;

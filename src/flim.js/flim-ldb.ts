@@ -1,6 +1,6 @@
-const fs = require("fs");
-const readline = require('readline');
-const logger = require("./modules/flim-logger");
+import * as fs from "fs";
+import * as readline from 'readline';
+import {Logger} from "./modules/flim-logger";
 
 function filter( obj, filtercheck) {
     let result = {}; 
@@ -9,12 +9,14 @@ function filter( obj, filtercheck) {
 };
 
 class ldb{
+    logger:Logger;
+    name:string;
     constructor(name){
-        this.logger = new logger();
+        this.logger = new Logger();
         this.name = name ? (name.endsWith(".flim") ? name : name+".flim") : "ldb.flim";
     }
     async create(){
-        let db = {};
+        let db:any={};
         const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -75,33 +77,35 @@ class ldb{
             input: process.stdin,
             output: process.stdout
         });
-        let name = await new Promise(resolve => {
+        let name:string = await new Promise(resolve => {
             rl.question("name: ", resolve);
-        }) || false;
+        }) || "";
         if(!name) {
             this.exit("parameter not specified");
         }
         let title = await new Promise(resolve => {
             rl.question("title: ", resolve);
-        }) || false;
+        }) || "";
         if(!title) {
             this.exit("parameter not specified");
         }
         let url = await new Promise(resolve => {
             rl.question("url: ", resolve);
-        }) || false;
+        }) || "";
         if(!url) {
             this.exit("parameter not specified");
         }
         rl.close();
-        let locdb;
+        let locdb:any;
         try{
              locdb = JSON.parse(fs.readFileSync(this.name, 'utf-8'));
         } catch(e){
             this.exit(e);
         }
         locdb.packages[name] = {title:title, url:url};
-        fs.writeFile(this.name, JSON.stringify(locdb, null, "  "));
+        fs.writeFile(this.name, JSON.stringify(locdb, null, "  "), err=>{
+
+        });
     }
     add(name, title, url){
         let locdb;
@@ -111,7 +115,9 @@ class ldb{
             this.exit(e);
         }
         locdb.packages[name] = {title:title, url:url};
-        fs.writeFile(this.name, JSON.stringify(locdb, null, "  "));
+        fs.writeFile(this.name, JSON.stringify(locdb, null, "  "), err=>{
+            
+        });
     }
 }
 

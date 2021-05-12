@@ -1,5 +1,7 @@
-const fs = require("fs");
-const readline = require('readline');
+import * as fs from "fs";
+import * as readline from "readline";
+import { Logger } from "./modules/flim-logger";
+let logger:Logger = new Logger();
 
 function filter( obj, filtercheck) {
     let result = {}; 
@@ -8,7 +10,7 @@ function filter( obj, filtercheck) {
 };
 
 async function init(){
-    let jsonflim = {};
+    let jsonflim:any={};
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -41,17 +43,21 @@ async function init(){
 
     rl.close();
     console.log(jsonflim);
-    fs.writeFile("./flim.json", JSON.stringify(jsonflim, null, "  "));
+    fs.writeFile("./flim.json", JSON.stringify(jsonflim, null, "  "), ()=>{
+        logger.ok("flim.json created");
+    });
 }
 
 function fastinit(){
-    let jsonflim = {};
+    let jsonflim:any={};
     jsonflim.name = process.cwd().split("\\")[process.cwd().split("\\").length-1];
     jsonflim.version = "1.0.0";
     jsonflim.type = "flim";
     jsonflim.license = "MIT";
     console.log(jsonflim);
-    fs.writeFile("./flim.json", JSON.stringify(jsonflim, null, "  "));
+    fs.writeFile("./flim.json", JSON.stringify(jsonflim, null, "  "), ()=>{
+        logger.ok("flim.json created");
+    });
 }
 
 module.exports = {

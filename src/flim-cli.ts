@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 const { Command } = require('commander');
-require("./flim.js/modules/flim-patch-commander")(Command);
+require("./flim.js/modules/flim-patch-commander").patchCommander(Command);
 
 const program = new Command();
-program.version(require("./package.json").version);
+program.version(require("../package.json").version);
 
 program
   .command('i <pkg...>')
@@ -52,7 +52,7 @@ ldb
   });
 
 ldb
-  .command("add [dbname] [title] [name] [url]")
+  .command("add <dbname> [title] [name] [url]")
   .description("add a package to localdb")
   .option("-s, --sequential-mode", "Fill in the package description sequentially")
   .action((dbname, title, name, url, options)=>{
