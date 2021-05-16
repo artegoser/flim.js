@@ -61,38 +61,14 @@ class flim{
         this.mainlogger = new Logger();
         this.mainlogger.info(`flim version ${require("../../package.json").version}`);
         this.index = {};
-        try{
-          const findex = new api();
-          findex.getPackage(pkg).then((val)=>{
-            this.index[pkg] = val;
-            if(!this.index[pkg].code){
-                this.mainlogger.info("Package found, download begins");
-                this.flimpkg(this.index[pkg], pkg, g);
-            } else this.mainlogger.warn(val)
-          });
-        } catch{
-          this.mainlogger.info(`Package not found, using cdn.jsdelivr.net`);
-          fetch(`https://cdn.jsdelivr.net/npm/${pkg}/flim.json`)
-            .then(res => res.json())
-            .then(json => {
-                this.index[pkg] = json;
-                this.flimpkg(this.index[pkg], pkg, g);
-            }).catch(err=> {
-                this.mainlogger.warn("Fetch Error"); 
-                this.mainlogger.info("Trying to get package.json Instead of flim.json"); 
-                fetch(`https://cdn.jsdelivr.net/npm/${pkg}/package.json`)
-                .then(res => res.json())
-                .then(json => {
-                    this.index[pkg] = {};
-                    this.index[pkg].type = "npm-node";
-                    this.flimpkg(this.index[pkg], pkg, g);
-                }).catch(()=>{
-                    this.mainlogger.warn("Fetch Error"); 
-                    console.log(err); 
-                    process.exit(1);
-                });
-            });
-        }
+        const findex = new api();
+        findex.getPackage(pkg).then((val)=>{
+        this.index[pkg] = val;
+        if(!this.index[pkg].code){
+            this.mainlogger.info("Package found, download begins");
+            this.flimpkg(this.index[pkg], pkg, g);
+        } else this.mainlogger.warn("Package not found");
+        });
     }
     flimpkg(json, pkg, g){
         switch(json.type){

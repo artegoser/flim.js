@@ -86,3 +86,4 @@ typings/
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+flim-win.exe
