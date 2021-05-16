@@ -38,6 +38,14 @@ program
     }
   });
 
+program
+  .command("publish")
+  .description("publishes the package to the global flim package index")
+  .action(()=>{
+    let publish = require("./flim.js/flim-publish");
+    
+  });
+
 const ldb = program.command("ldb").description("Work with localdbs").forwardSubcommands();
 
 ldb
