@@ -26,12 +26,14 @@ export class Logger{
         logUpdate(this.tab+msg);
         logUpdate.done();
     }
-    async startFunc(title,func,addinf:any=false,brackets=true){
-        if(brackets) console.log(chalk.yellow(`flim run:  ${title} {`));
+    async startFunc(title:string,func,addinf:any=false,brackets=true){
+        if(brackets) console.log(chalk.yellow(`flim run:  ${title.replace("!","")} {`));
         let time = setInterval(()=>{
             this.next_frame();
-            if(addinf) logUpdate(chalk.yellow(`${this.frame} ${title} ${addinf()}`));
-            else logUpdate(chalk.yellow(`${this.frame} ${title}`));
+            if(!title.startsWith("!")){
+                if(addinf) logUpdate(chalk.yellow(`${this.tab}${this.frame} ${title} ${addinf()}`));
+                else logUpdate(chalk.yellow(`${this.tab}${this.frame} ${title}`));
+            }
         }, 150);
         function done(){
             clearInterval(time);

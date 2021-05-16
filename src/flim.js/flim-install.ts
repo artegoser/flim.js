@@ -2,7 +2,8 @@ import { spawn } from "child_process";
 import * as logUpdate from 'log-update';
 import * as fetch from 'node-fetch';
 import { Logger } from "./modules/flim-logger";
-import * as fs from "fs";
+import { Downloader } from "./modules/flim-downloads";
+import * as api from "flim-api";
 
 function npm(pkg, g, resolve){
         let xc = g ? ["i"].concat(pkg,'-g') : ["i"].concat(pkg);
@@ -59,14 +60,18 @@ class flim{
         pkg = Array.isArray(pkg) ? pkg[0] : pkg;
         this.mainlogger = new Logger();
         this.mainlogger.info(`flim version ${require("../../package.json").version}`);
-        this.mainlogger.info(`The global flim index doesn't work in flim yet`);
         this.index = {};
         try{
-          this.mainlogger.info(`Try to read flim-index.json in local storage`);
-          this.index = fs.readFileSync(`${__dirname}\\flim-index.json`).toJSON();
-          this.flimpkg(this.index[pkg], pkg, g);
+          const findex = new api();
+          findex.getPackage(pkg).then((val)=>{
+            this.index[pkg] = val;
+            if(!this.index[pkg].code){
+                this.mainlogger.info("Package found, download begins");
+                this.flimpkg(this.index[pkg], pkg, g);
+            } else this.mainlogger.warn(val)
+          });
         } catch{
-          this.mainlogger.info(`Local index not found, using cdn.jsdelivr.net`);
+          this.mainlogger.info(`Package not found, using cdn.jsdelivr.net`);
           fetch(`https://cdn.jsdelivr.net/npm/${pkg}/flim.json`)
             .then(res => res.json())
             .then(json => {
@@ -90,25 +95,34 @@ class flim{
         }
     }
     flimpkg(json, pkg, g){
-        if(json.type=="flim"){
-            this.mainlogger.warn("Sorry, flim type still in development")
-            //later
-        } else if(json.type=="npm-node"){
-            this.mainlogger.startFunc(`npm-node setup for ${pkg}`, async ctx=>{
-                await new Promise((res)=>{
-                    npm(pkg, g, res);
+        switch(json.type){
+            case "flim-portable":
+                this.mainlogger.startFunc(`!flim-portable setup for ${pkg}`, async ctx=>{
+                    let downloader = new Downloader(json.url, json.filename, "  ");
+                    downloader.ev.on("done", ()=>{
+                        ctx.done();
+                    });
                 });
-                ctx.done();
-            });
-        } else if(json.type=="yarn-node"){
-            this.mainlogger.startFunc(`npm-yarn setup for ${pkg}`, async ctx=>{
-                await new Promise((res)=>{
-                    yarn(pkg, res);
+                break;
+            case "npm-node":
+                this.mainlogger.startFunc(`npm-node setup for ${pkg}`, async ctx=>{
+                    await new Promise((res)=>{
+                        npm(pkg, g, res);
+                    });
+                    ctx.done();
                 });
-                ctx.done();
-            });
-        } else{
-            this.mainlogger.warn(`this type (${json.type}) is not supported`);
+                break;
+            case "yarn-node":
+                this.mainlogger.startFunc(`npm-yarn setup for ${pkg}`, async ctx=>{
+                    await new Promise((res)=>{
+                        yarn(pkg, res);
+                    });
+                    ctx.done();
+                });
+                break;
+            default:
+                this.mainlogger.warn(`this type (${json.type}) is not supported`);
+                break;
         }
     }
 }

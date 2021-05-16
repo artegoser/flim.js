@@ -1,22 +1,27 @@
 import * as fetch from "node-fetch";
 import { Logger } from "./flim-logger";
 import * as fs from "fs";
-class Downloader{
+import * as events from 'events';
+
+export class Downloader{
   Logger:Logger;
   url:URL;
   bytes_written:number;
   bytes:number;
-  constructor(durl, path){
-    this.Logger = new Logger("  ");
+  ev:events;
+  constructor(durl, path, tabs:string=""){
+    this.ev = new events.EventEmitter();
+    this.Logger = new Logger(tabs);
     this.url = new URL(durl);
     switch(this.url.protocol){
       case "http:":
       case "https:":
-        this.Logger.startFunc(`Downloading ${this.url.pathname}`, async ctx=>{
+        this.Logger.startFunc(`Downloading ${path}`, async ctx=>{
           await this.downloadHttp(path);
           ctx.done();
+          this.ev.emit("done");
         }, ()=>{
-          return (this.bytes_written/this.bytes*100).toFixed(2)+"%";//this.bytes_written+"/"+this.bytes;
+          return (this.bytes_written/this.bytes*100).toFixed(2)+"%";
         }, false);
         break;
       default:
@@ -42,4 +47,3 @@ class Downloader{
         });
       }
 }
-module.exports = Downloader
