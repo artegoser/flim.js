@@ -87,3 +87,5 @@ typings/
 !.yarn/versions
 .pnp.*
 flim-win.exe
+flim-linux
+flim-macos

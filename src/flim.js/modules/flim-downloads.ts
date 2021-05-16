@@ -9,7 +9,7 @@ export class Downloader{
   bytes_written:number;
   bytes:number;
   ev:events;
-  constructor(durl, path, tabs:string=""){
+  constructor(durl:string, path:string, tabs:string=""){
     this.ev = new events.EventEmitter();
     this.Logger = new Logger(tabs);
     this.url = new URL(durl);
@@ -29,7 +29,7 @@ export class Downloader{
         break;
     }
   }
-  async downloadHttp(path) {
+  async downloadHttp(path:string) {
       const res = await fetch(this.url.href);
       this.bytes = res.headers.get('content-length');
       const fileStream = fs.createWriteStream(path);

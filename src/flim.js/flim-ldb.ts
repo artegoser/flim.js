@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as readline from 'readline';
 import {Logger} from "./modules/flim-logger";
 
-function filter( obj, filtercheck) {
+function filter(obj:any, filtercheck:any) {
     let result = {}; 
     Object.keys(obj).forEach((key) => { if (filtercheck(obj[key])) result[key] = obj[key]; });
     return result;
@@ -11,7 +11,7 @@ function filter( obj, filtercheck) {
 class ldb{
     logger:Logger;
     name:string;
-    constructor(name){
+    constructor(name:string){
         this.logger = new Logger();
         this.name = name ? (name.endsWith(".flim") ? name : name+".flim") : "ldb.flim";
     }
@@ -68,7 +68,7 @@ class ldb{
             });
         });
     }
-    exit(err){
+    exit(err:string){
         this.logger.warn(err);
         process.exit(1);
     }
@@ -107,7 +107,7 @@ class ldb{
 
         });
     }
-    add(name, title, url){
+    add(name:string, title:string, url:string){
         let locdb;
         try{
              locdb = JSON.parse(fs.readFileSync(this.name, 'utf-8'));

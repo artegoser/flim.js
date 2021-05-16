@@ -1,11 +1,10 @@
 import { spawn } from "child_process";
 import * as logUpdate from 'log-update';
-import * as fetch from 'node-fetch';
 import { Logger } from "./modules/flim-logger";
 import { Downloader } from "./modules/flim-downloads";
 import * as api from "flim-api";
 
-function npm(pkg, g, resolve){
+function npm(pkg: string | ConcatArray<string>, g: boolean, resolve:any){
         let xc = g ? ["i"].concat(pkg,'-g') : ["i"].concat(pkg);
         const sp = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', xc);
 
@@ -29,13 +28,13 @@ function npm(pkg, g, resolve){
         });
 }
 
-function yarn(pkg, resolve){
-    let xc = ["add"].concat(pkg)
+function yarn(pkg:ConcatArray<string>|string, resolve:any){
+    let xc = ["add"].concat(pkg);
     const sp = spawn(/^win/.test(process.platform) ? 'yarn.cmd' : 'yarn', xc);
 
     sp.stdout.on("data", data => {
         logUpdate(`  ${data}`.replace(/\n/g, "\n    "));
-        logUpdate.done()
+        logUpdate.done();
     });
     
     sp.stderr.on("data", data => {
@@ -56,7 +55,7 @@ function yarn(pkg, resolve){
 class flim{
     mainlogger:Logger;
     index:any;
-    constructor(pkg, g){
+    constructor(pkg:string, g:boolean){
         pkg = Array.isArray(pkg) ? pkg[0] : pkg;
         this.mainlogger = new Logger();
         this.mainlogger.info(`flim version ${require("../../package.json").version}`);
@@ -74,7 +73,7 @@ class flim{
         switch(json.type){
             case "flim-portable":
                 this.mainlogger.startFunc(`!flim-portable setup for ${pkg}`, async ctx=>{
-                    let downloader = new Downloader(json.url, json.filename, "  ");
+                    let downloader:Downloader = new Downloader(json.url, json.filename, "  ");
                     downloader.ev.on("done", ()=>{
                         ctx.done();
                     });
