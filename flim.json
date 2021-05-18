@@ -1,8 +1,8 @@
 {
   "name": "flim.js",
   "author": "artegoser",
-  "version": "1.0.0-alpha-0.14.0",
-  "url":"https://github.com/artegoser/flim.js/releases/download/v1.0.0-alpha-0.14.0/flim-win.exe",
+  "version": "1.0.0-alpha-0.16.0",
+  "url":"https://github.com/artegoser/flim.js/releases/download/v1.0.0-alpha-0.16.0/flim-win.exe",
   "filename":"flim.exe",
   "type": "flim-portable",
   "license": "MIT",
