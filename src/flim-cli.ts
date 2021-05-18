@@ -4,6 +4,7 @@ require("./flim.js/modules/flim-patch-commander").patchCommander(Command);
 
 const program = new Command();
 program.version(require("../package.json").version);
+console.time("final");
 
 program
   .command('i <pkg...>')
@@ -42,8 +43,7 @@ program
   .command("publish")
   .description("publishes the package to the global flim package index")
   .action(()=>{
-    let publish = require("./flim.js/flim-publish");
-    
+    require("./flim.js/flim-publish")();
   });
 
 const ldb = program.command("ldb").description("Work with localdbs").forwardSubcommands();

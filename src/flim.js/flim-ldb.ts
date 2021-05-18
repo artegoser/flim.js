@@ -43,7 +43,7 @@ class ldb{
         this.logger.info("Creating a localdb");
         fs.writeFile(this.name, JSON.stringify(db, null, "  "), err=>{
             if(err){
-                this.logger.warn(err);
+                this.logger.warn(`${err}`);
                 return;
             }
             this.logger.info("Created a localdb");
@@ -58,7 +58,7 @@ class ldb{
             packages: {}
         }, null, "  "), err=>{
             if(err){
-                this.logger.warn(err);
+                this.logger.warn(`${err}`);
                 return;
             }
             this.logger.info("Created a localdb");

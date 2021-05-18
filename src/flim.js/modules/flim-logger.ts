@@ -10,23 +10,24 @@ export class Logger{
         this.i = 0;
         this.spinframes = process.platform !== 'win32' ? ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'] : ['-', '\\', '|', '/'];
     }
-    warn(msg){
+    warn(msg: string){
         logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgRed.white("flim warn:")} ${msg} `));
         logUpdate.done();
     }
-    info(msg){
+    info(msg: string){
         logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgBlue.white("flim info:")} ${msg} `));
         logUpdate.done();
     }
-    ok(msg){
+    ok(msg: string){
         logUpdate(this.tab+chalk.black.bgWhite(`${chalk.bgGreen.white("flim:     ")} ${msg} `));
         logUpdate.done();
     }
-    log(msg){
+    log(msg: string){
         logUpdate(this.tab+msg);
         logUpdate.done();
     }
     async startFunc(title:string,func,addinf:any=false,brackets=true){
+        let self = this;
         if(brackets) console.log(chalk.yellow(`flim run:  ${title.replace("!","")} {`));
         let time = setInterval(()=>{
             this.next_frame();
@@ -41,12 +42,29 @@ export class Logger{
             logUpdate.done();
         }
 
+        function warn(msg: string){
+            logUpdate(self.tab+'  '+chalk.black.bgWhite(`${chalk.bgRed.white("flim warn:")} ${msg} `));
+            logUpdate.done();
+        }
+        function info(msg: string){
+            logUpdate(self.tab+'  '+chalk.black.bgWhite(`${chalk.bgBlue.white("flim info:")} ${msg} `));
+            logUpdate.done();
+        }
+        function ok(msg: string){
+            logUpdate(self.tab+'  '+chalk.black.bgWhite(`${chalk.bgGreen.white("flim:     ")} ${msg} `));
+            logUpdate.done();
+        }
+        function log(msg: string){
+            logUpdate(self.tab+'  '+msg);
+            logUpdate.done();
+        }
+
         let context = {
-            warn:this.warn,
-            ok:this.ok,
+            warn:warn,
+            ok:ok,
             done:done,
-            info:this.info,
-            log:this.log
+            info:info,
+            log:log
         }
         await func(context);
     }

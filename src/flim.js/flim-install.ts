@@ -76,6 +76,7 @@ class flim{
                     let downloader:Downloader = new Downloader(json.url, json.filename, "  ");
                     downloader.ev.on("done", ()=>{
                         ctx.done();
+                        console.timeEnd("final");
                     });
                 });
                 break;
@@ -85,6 +86,7 @@ class flim{
                         npm(pkg, g, res);
                     });
                     ctx.done();
+                    console.timeEnd("final");
                 });
                 break;
             case "yarn-node":
@@ -93,6 +95,7 @@ class flim{
                         yarn(pkg, res);
                     });
                     ctx.done();
+                    console.timeEnd("final");
                 });
                 break;
             default:
