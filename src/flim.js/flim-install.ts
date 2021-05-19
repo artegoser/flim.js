@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 import * as logUpdate from 'log-update';
 import { Logger } from "./modules/flim-logger";
 import { Downloader } from "./modules/flim-downloads";
-import * as api from "flim-api";
+import {API as Api} from "flim-api";
 
 function npm(pkg: string | ConcatArray<string>, g: boolean, resolve:any){
         let xc = g ? ["i"].concat(pkg,'-g') : ["i"].concat(pkg);
@@ -60,7 +60,7 @@ class flim{
         this.mainlogger = new Logger();
         this.mainlogger.info(`flim version ${require("../../package.json").version}`);
         this.index = {};
-        const findex = new api();
+        const findex = new Api("", "");
         findex.getPackage(pkg).then((val)=>{
         this.index[pkg] = val;
         if(!this.index[pkg].code){

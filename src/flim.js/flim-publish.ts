@@ -1,5 +1,5 @@
 import { validator } from "./modules/flim-validator";
-import * as Api from "flim-api";
+import {API as Api} from "flim-api";
 import * as readline from 'readline';
 import * as fs from "fs";
 import { Logger } from "./modules/flim-logger";
