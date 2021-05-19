@@ -706,10 +706,10 @@ flat@^5.0.2:
   resolved "https://registry.yarnpkg.com/flat/-/flat-5.0.2.tgz#8ca6fe332069ffa9d324c327198c598259ceb241"
   integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
 
-flim-api@^1.0.0-alpha-0.0.2:
-  version "1.0.0-alpha-0.0.2"
-  resolved "https://registry.yarnpkg.com/flim-api/-/flim-api-1.0.0-alpha-0.0.2.tgz#3a84de59f0f3d30c43d7bf23a7766223fd3471cd"
-  integrity sha512-3xniodhE6sSJGJtcEFPs9xcEpxKP0TCCGOAIyHRmU9bILZK8fXW3kzDl0AVAvwK8sDjBhZ6icszRuDaVaTevlg==
+flim-api@^1.0.0-alpha-0.1.0:
+  version "1.0.0-alpha-0.1.0"
+  resolved "https://registry.yarnpkg.com/flim-api/-/flim-api-1.0.0-alpha-0.1.0.tgz#8f177bc31b998b212404769c80206e3f34c9634d"
+  integrity sha512-S+2URctQG+YyFZRZ29jAGp0uH2hIBy271ob2oXcY55atvgimZPKu0YHiovtYoQfr3fEBIQqfflqzI+/LfHysWw==
   dependencies:
     node-fetch "^2.6.1"
 

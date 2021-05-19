@@ -20,7 +20,7 @@
   "dependencies": {
     "chalk": "^4.1.1",
     "commander": "^7.2.0",
-    "flim-api": "^1.0.0-alpha-0.0.2",
+    "flim-api": "^1.0.0-alpha-0.1.0",
     "log-update": "^4.0.0",
     "node-fetch": "^2.6.1"
   },
