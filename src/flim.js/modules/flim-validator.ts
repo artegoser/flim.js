@@ -1,4 +1,3 @@
-
 export function validator(pkg) {
     if(!(pkg.author||pkg.name||pkg.version||pkg.type)) return false;
     switch(pkg.type){
