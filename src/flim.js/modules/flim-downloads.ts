@@ -30,20 +30,20 @@ export class Downloader{
     }
   }
   async downloadHttp(path:string) {
-      const res = await fetch(this.url.href);
-      this.bytes = res.headers.get('content-length');
-      const fileStream = fs.createWriteStream(path);
-      let bytescheck = setInterval(()=>{
-        this.bytes_written = fileStream.bytesWritten;
-      }, 0);
-      await new Promise<void>((resolve, reject) => {
-          res.body.pipe(fileStream);
-          res.body.on("error", reject);
-          fileStream.on("finish", ()=>{
-            this.Logger.ok(`Downloaded ${path}`);
-            clearInterval(bytescheck);
-            resolve();
-          });
-        });
-      }
+    const res = await fetch(this.url.href);
+    this.bytes = res.headers.get('content-length');
+    const fileStream = fs.createWriteStream(path);
+    let bytescheck = setInterval(()=>{
+      this.bytes_written = fileStream.bytesWritten;
+    }, 0);
+    await new Promise<void>((resolve, reject) => {
+      res.body.pipe(fileStream);
+      res.body.on("error", reject);
+      fileStream.on("finish", ()=>{
+        this.Logger.ok(`Downloaded ${path}`);
+        clearInterval(bytescheck);
+        resolve();
+      });
+    });
+  }
 }
